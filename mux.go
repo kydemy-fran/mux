@@ -209,7 +209,11 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 
 	if handler == nil {
-		handler = http.NotFoundHandler()
+		if r.NotFoundHandler != nil {
+			handler = r.NotFoundHandler
+		} else {
+			handler = http.NotFoundHandler()
+		}
 	}
 
 	handler.ServeHTTP(w, req)
